@@ -8,6 +8,7 @@ document.body.appendChild(header);
 
 const text = document.createElement('textarea');
 text.placeholder = "OS Windows \nSwitch languages - Ctrl + Alt (left)";
+text.id = "textarea"
 document.body.appendChild(text);
 
 const keyboard = document.createElement('div');
@@ -129,6 +130,7 @@ arrDown.classList.add('special-btn')
 arrLeft.classList.add('special-btn')
 arrUp.classList.add('special-btn')
 
+
 // Texting
 
 
@@ -139,15 +141,42 @@ btns.forEach( el => el.addEventListener('click', textSymbol = (event) => {
      event.target.classList.toggle('clicked')
    }, 300);
    const letter = event.target.dataset.symbol
-   if(event.target.dataset.symbol === "Del" || event.target.dataset.symbol === "whiteSpace" 
+    
+   // Texting on textarea
+
+   if (!(event.target.dataset.symbol === "Del" || event.target.dataset.symbol === "whiteSpace" 
    || event.target.dataset.symbol === "CapsLock" || event.target.dataset.symbol === "Tab" || event.target.dataset.symbol === "Alt" 
    || event.target.dataset.symbol === "Ctrl" || event.target.dataset.symbol === "Shift" || event.target.dataset.symbol === "Enter"
-   || event.target.dataset.symbol === "Win" || event.target.dataset.symbol === "Backspace" ) {
-     event.target.preventDefault();
+   || event.target.dataset.symbol === "Win" || event.target.dataset.symbol === "Backspace" )) {
+      
+    text.value += letter
      
-   }
-   text.value += letter
+    // Backspace button
+   } else if (event.target.dataset.symbol === "Backspace"){
+      const start = document.querySelector('#textarea').selectionStart
+      const end = document.querySelector('#textarea').selectionEnd
+      const len  = text.value.length;
+      const textbefore = text.value.substring( 0, start );    
+      const textafter = text.value.substring( end, len );   
+
+      if (start == end) {
+        text.value = text.value.substring(0, start-1 ) + text.value.substring(end, len );
+        text.focus();
+        text.selectionStart = start - 1;
+        text.selectionEnd = start - 1;
+      } else {
+      text.value = textbefore + textafter ;
+      text.focus();
+      text.selectionStart = start;
+      text.selectionEnd = start;
+      }
+   } 
+  
 }))
+ 
+
+
+
 
 
 
