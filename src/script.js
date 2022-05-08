@@ -1,4 +1,5 @@
 // Creating heading h1
+
 const header = document.createElement('h1');
 header.innerText = 'Virtual Keyboard';
 document.body.appendChild(header);
@@ -8,6 +9,7 @@ document.body.appendChild(header);
 const text = document.createElement('textarea');
 text.placeholder = "OS Windows \nSwitch languages - Ctrl + Alt (left)";
 document.body.appendChild(text);
+
 const keyboard = document.createElement('div');
 keyboard.classList.add('container');
 document.body.appendChild(keyboard);
@@ -126,4 +128,28 @@ arrRight.classList.add('special-btn')
 arrDown.classList.add('special-btn')
 arrLeft.classList.add('special-btn')
 arrUp.classList.add('special-btn')
+
+// Texting
+
+
+const btns = document.querySelectorAll('span')
+btns.forEach( el => el.addEventListener('click', textSymbol = (event) => {
+   event.target.classList.add('clicked')
+   const clickTime = setTimeout(() => {
+     event.target.classList.toggle('clicked')
+   }, 300);
+   const letter = event.target.dataset.symbol
+   if(event.target.dataset.symbol === "Del" || event.target.dataset.symbol === "whiteSpace" 
+   || event.target.dataset.symbol === "CapsLock" || event.target.dataset.symbol === "Tab" || event.target.dataset.symbol === "Alt" 
+   || event.target.dataset.symbol === "Ctrl" || event.target.dataset.symbol === "Shift" || event.target.dataset.symbol === "Enter"
+   || event.target.dataset.symbol === "Win" || event.target.dataset.symbol === "Backspace" ) {
+     event.target.preventDefault();
+     
+   }
+   text.value += letter
+}))
+
+
+
+
 
