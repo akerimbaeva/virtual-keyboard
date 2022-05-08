@@ -133,15 +133,21 @@ arrUp.classList.add('special-btn')
 
 // Texting
 
-
 const btns = document.querySelectorAll('span')
+
 btns.forEach( el => el.addEventListener('click', textSymbol = (event) => {
+
+  const letter = event.target.dataset.symbol
+  const start = document.querySelector('#textarea').selectionStart
+  const end = document.querySelector('#textarea').selectionEnd
+  const len  = text.value.length;
+
+
    event.target.classList.add('clicked')
    const clickTime = setTimeout(() => {
      event.target.classList.toggle('clicked')
    }, 300);
-   const letter = event.target.dataset.symbol
-    
+   
    // Texting on textarea
 
    if (!(event.target.dataset.symbol === "Del" || event.target.dataset.symbol === "whiteSpace" 
@@ -152,13 +158,11 @@ btns.forEach( el => el.addEventListener('click', textSymbol = (event) => {
     text.value += letter
      
     // Backspace button
+    
    } else if (event.target.dataset.symbol === "Backspace"){
-      const start = document.querySelector('#textarea').selectionStart
-      const end = document.querySelector('#textarea').selectionEnd
-      const len  = text.value.length;
+
       const textbefore = text.value.substring( 0, start );    
       const textafter = text.value.substring( end, len );   
-
       if (start == end) {
         text.value = text.value.substring(0, start-1 ) + text.value.substring(end, len );
         text.focus();
@@ -170,8 +174,27 @@ btns.forEach( el => el.addEventListener('click', textSymbol = (event) => {
       text.selectionStart = start;
       text.selectionEnd = start;
       }
-   } 
+
   
+    // Tab button
+
+   } else if (event.target.dataset.symbol === "Tab") {
+     text.setRangeText("\t", text.selectionStart, text.selectionEnd, "end")
+     text.focus() 
+
+     // Enter button
+
+   } else if (event.target.dataset.symbol === "Enter") {
+    text.setRangeText("\n", text.selectionStart, text.selectionEnd, "end")
+    text.focus() 
+   
+    // Space
+
+  } else if (event.target.dataset.symbol === "whiteSpace") {
+    text.setRangeText(" ", text.selectionStart, text.selectionEnd, "end")
+    text.focus() 
+  }
+ 
 }))
  
 
