@@ -104,8 +104,24 @@ textarea {
     background-color: #fff;
     border: none;
     color: #0e0c0c;
+    
 }
 
 .white-space.clicked:hover {
     color: #fff;
+}
+
+.none {
+    display: none;
+}
+
+.upperCase {
+    text-transform: uppercase;
+}
+
+.active {
+    background-color: #fff;
+    border-radius: 16px;
+    border: none;
+    color: #0e0c0c;
 }

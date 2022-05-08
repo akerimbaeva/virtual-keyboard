@@ -31,6 +31,18 @@ for (let i = 1; i <= 5; i++) {
 
 // Creating buttons on row1
 
+const btn1_symbolsShift = ["~", "!", "@", "#", "$", "%", "^", "&", "*", "(" , ")"]
+
+for (let i = 1; i <= 11; i++) {
+  const btn11 = document.createElement('span');
+  btn11.classList.add('btn', 'none'); // setting class
+  btn11.innerHTML = btn1_symbolsShift[i - 1]
+  const attr = document.createAttribute('data-symbol')
+  attr.value = btn1_symbolsShift[i-1] // setting attribute
+  btn11.setAttributeNode(attr)
+  row1.append(btn11);
+}
+
 const btn1_symbols = ["`" , "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "Backspace"]
 
 for (let i = 1; i <= 14; i++) {
@@ -42,6 +54,8 @@ for (let i = 1; i <= 14; i++) {
   btn1.setAttributeNode(attr)
   row1.append(btn1);
 }
+
+
 
 // Creating buttons on row2
 
@@ -137,7 +151,7 @@ const btns = document.querySelectorAll('span')
 
 btns.forEach( el => el.addEventListener('click', textSymbol = (event) => {
 
-  const letter = event.target.dataset.symbol
+  const letter = event.target.innerText
   const start = document.querySelector('#textarea').selectionStart
   const end = document.querySelector('#textarea').selectionEnd
   const len  = text.value.length;
@@ -158,7 +172,7 @@ btns.forEach( el => el.addEventListener('click', textSymbol = (event) => {
     text.value += letter
      
     // Backspace button
-    
+
    } else if (event.target.dataset.symbol === "Backspace"){
 
       const textbefore = text.value.substring( 0, start );    
@@ -193,8 +207,41 @@ btns.forEach( el => el.addEventListener('click', textSymbol = (event) => {
   } else if (event.target.dataset.symbol === "whiteSpace") {
     text.setRangeText(" ", text.selectionStart, text.selectionEnd, "end")
     text.focus() 
-  }
- 
+  
+    // CapsLock
+
+  } else if (event.target.dataset.symbol === "CapsLock") {
+     capslock.classList.toggle('active')
+     btns.forEach(el => {
+       if(!(el.dataset.symbol === "Backspace" || el.dataset.symbol === "Tab" || el.dataset.symbol === "Shift" || 
+       el.dataset.symbol === "Alt" || el.dataset.symbol === "whiteSpace" || el.dataset.symbol === "Del" || el.dataset.symbol === "Win" || 
+       el.dataset.symbol === "Ctrl" || el.dataset.symbol === "Enter" || el.dataset.symbol === "CapsLock"))
+       {
+       el.classList.toggle('upperCase')
+       }
+    })
+    
+    // Shift buttons
+
+  } else if (event.target.dataset.symbol === "Shift") {
+
+    shift.forEach( el => el.classList.toggle('active'))
+    const btn1_symbolsShift = ["~", "!", "@", "#", "$", "%", "^", "&", "*", "(" , ")"]
+    for (let i = 0; i <= 10; i++) {
+      btns.forEach(el => {
+        if(el.dataset.symbol === "`") {
+          el.classList.toggle('none')
+        }
+        if( el.dataset.symbol === i.toString()) {
+        el.classList.toggle('none')
+        }
+        if(el.dataset.symbol === btn1_symbolsShift[i]) {
+          el.classList.toggle('none')
+        }
+     })
+    }
+    }
+
 }))
  
 
