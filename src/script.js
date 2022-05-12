@@ -1,3 +1,5 @@
+let isRuLang = false;
+
 // Creating heading h1
 
 const header = document.createElement('h1');
@@ -160,7 +162,7 @@ RU.classList.add('special-btn')
 const btns = document.querySelectorAll('span')
 
 btns.forEach( el => el.addEventListener('click', textSymbol = (event) => {
-  console.log(event.code)
+  text.focus()
   const letter = event.target.innerText
   const start = document.querySelector('#textarea').selectionStart
   const end = document.querySelector('#textarea').selectionEnd
@@ -254,21 +256,21 @@ btns.forEach( el => el.addEventListener('click', textSymbol = (event) => {
     }
     
     // Switching lang
-
-  } else if ((event.target.dataset.symbol === "RU") || (event.target.dataset.symbol === "Ctrl" && event.target.dataset.symbol === "Alt")) {
-    RU.innerHTML = "EN"
-    RU.dataset.symbol = "EN"
+  
+  } else if ((event.target.dataset.symbol === "RU")) {
+     localStorage.setItem('lang', 'ru') 
+     RU.innerHTML = "EN"
+     RU.dataset.symbol = "EN"
     btns.forEach(el => {
       for(let i = 0; i < en.length; i++) {
         if(el.dataset.symbol === en[i]) {
           el.dataset.symbol = ru[i]
           el.innerText = ru[i]   
-      }
-      }
+      }  
+      }  
    })
-  
-
   } else if(event.target.dataset.symbol === "EN") {
+    localStorage.clear()
     RU.innerHTML = "RU"
     RU.dataset.symbol = "RU"
     btns.forEach(el => {
@@ -290,35 +292,54 @@ btns.forEach( el => el.addEventListener('click', textSymbol = (event) => {
    }
 
 }))
+ 
+if ( localStorage.getItem('lang') === 'ru') {
+  btns.forEach(el => {
+    RU.innerHTML = "EN"
+     RU.dataset.symbol = "EN"
+    for(let i = 0; i < en.length; i++) {
+      if(el.dataset.symbol === en[i]) {
+        el.dataset.symbol = ru[i]
+        el.innerText = ru[i]   
+    }  
+    }  
+ })
+}
+
 
 // Texting by pressing keys 
 
 document.onkeydown = function(event)  {
   console.log(event.code)
-  
+  text.focus()
   btns.forEach(el => {
-    if(event.key === el.dataset.symbol) {
-      el.classList.add('active')
+    
+// Highligthing virtual letter-keys when pressing real keyboard
+
+    const keyCode = ["Backquote", "KeyQ", "KeyW", "KeyE", "KeyR", "KeyT", "KeyY", "KeyU", "KeyI", "KeyO", "KeyP", "bracketLeft", "bracketRight", "KeyA", "KeyS", "KeyD", "KeyF", "KeyG", "KeyH", "KeyJ", "KeyK", "KeyL", "Semicolon", "Quote", "KeyZ", "KeyX", "KeyC", "KeyV", "KeyB", "KeyN", "KeyM", "Comma", "Period", "Backquote"]
+    if(event.key === el.dataset.symbol) { //  when keys on virtual keyboard === keys on real keyboard (the same langs)
+      el.classList.toggle('active')
       const PressKeyTime = setTimeout(() => {
         el.classList.toggle('active')
-      }, 300);
-    }
+      }, 300)
+     } 
+
+
+    //  Highligthing virtual special-keys when pressing real keyboard
 
     const keys = [ "Ctrl", "Win", "Alt", "ALT", "\u2190", "\u2191", "\u2192", "\u2193", "CTRL", "SHIFT", "Shift", "whiteSpace"]
     const keyCodes = [ "ControlLeft", "MetaLeft", "AltLeft", "AltRight", "ArrowLeft", "ArrowUp", "ArrowRight", "ArrowDown", "ControlRight", "ShiftRight", "ShiftLeft", "Space"]
     for (let i = 0; i < keys.length; i++) {
       if (event.code === keyCodes[i] && el.dataset.symbol === keys[i]) {
-        el.classList.add('active')
+        el.classList.toggle('active')
         const PressKeyTime = setTimeout(() => {
           el.classList.toggle('active')
         }, 300);
       }
-    }
-    
+    }    
  })
-
- 
 }
+
 
  
 
